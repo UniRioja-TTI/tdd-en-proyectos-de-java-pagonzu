@@ -1,36 +1,29 @@
 package com.tt1.test;
+import java.util.List;
 
-public class Repositorio {
-    private DBStub db;
+public class Repositorio implements IRepositorio {
+    private IDBStub db;
 
-    public Repositorio(DBStub db) {
-        this.db = db;
-    }
+    public Repositorio(IDBStub db) { this.db = db; }
 
-    public ToDo encontrarToDo(String nombre) {
-        return db.buscarTarea(nombre);
-    }
+    @Override
+    public ToDo encontrarToDo(String nombre) { return db.buscarTarea(nombre); }
 
+    @Override
     public void marcarComoCompletado(String nombre) {
-        ToDo todo = db.buscarTarea(nombre);
-        if (todo != null) {
-            todo.setCompletado(true);
-        }
+        ToDo t = db.buscarTarea(nombre);
+        if (t != null) t.setCompletado(true);
     }
 
-    public void almacenarToDo(ToDo todo) {
-        db.insertarTarea(todo);
-    }
+    @Override
+    public void almacenarToDo(ToDo todo) { db.insertarTarea(todo); }
 
-    public void almacenarEmail(String email) {
-        db.agregarEmail(email);
-    }
-    
-    public java.util.List<ToDo> obtenerTodos() {
-        return db.obtenerTodas();
-    }
-    
-    public java.util.List<String> obtenerEmails() {
-        return db.obtenerEmails();
-    }
+    @Override
+    public void almacenarEmail(String email) { db.agregarEmail(email); }
+
+    @Override
+    public List<ToDo> obtenerTodos() { return db.obtenerTodas(); }
+
+    @Override
+    public List<String> obtenerEmails() { return db.obtenerEmails(); }
 }
